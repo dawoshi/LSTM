@@ -31,7 +31,7 @@ new_state = new_input * input_gate + forget_gate * state
 
 The output gate 
 ```Python
-output_gate = tf.sigmoid(tf.matmul(input, w_o) + tf.matmul(u_i, hidden_state) + b_i)
+output_gate = tf.sigmoid(tf.matmul(input, w_o) + tf.matmul(u_o, hidden_state) + b_o)
 ```
 
 decides which parts we output:
