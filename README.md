@@ -1,17 +1,17 @@
 # Long short-term memory
 
-# Introduction
+## Introduction
 This project shows how the BasicLSTMCell is implemented internally in Tensorflow.
 
-# BasicLSTMCell
+## BasicLSTMCell
 The implementation of Tensorflow's BasicLSTMCell is based on:
 http://arxiv.org/abs/1409.2329
 
-The forget gate outputs a number between 0 and 1. It decides how much
-of the old state we forget:
+The forget gate 
 ```Python
 forget_gate = tf.sigmoid(tf.matmul(input, w_f) + tf.matmul(u_f, hidden_state) + b_f)
 ```
+outputs a number between 0 and 1. It decides how much of the old state we forget.
 
 The input gate
 ```Python
@@ -19,7 +19,7 @@ input_gate = tf.sigmoid(tf.matmul(input, w_i) + tf.matmul(u_i, hidden_state) + b
 ```
 decides how much new input is part of the new state.
 
-Then we create the information that could be added to the state
+Then we create the information that could be added to the state:
 ```Python
 new_input = tf.tanh(tf.matmul(input, w_j) + tf.matmul(u_j, hidden_state) + b_j)
 ```
