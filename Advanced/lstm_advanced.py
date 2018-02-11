@@ -23,9 +23,9 @@ class Model:
         self.label = tf.placeholder(tf.uint8, [batch_size])
 
         lstm_cell = tf.contrib.rnn.BasicLSTMCell(num_units, 0)
-        inputs_unstacked = tf.unstack(self.inputs, axis=0)
+        inputs_unstacked = tf.unstack(self.inputs, axis=0) # (3, 1, 1) -> [(1,1), (1,1), (1,1)]
 
-        self.outputs, self.states = tf.nn.static_rnn(lstm_cell, inputs_unstacked, dtype=tf.float32)
+        self.outputs, self.states = tf.nn.static_rnn(lstm_cell, inputs_unstacked, dtype=tf.float32) # [(1,2), (1,2), (1,2)]
 
         self.loss = tf.nn.softmax_cross_entropy_with_logits(logits=self.outputs[-1],
                                                             labels=tf.one_hot(self.label, depth=2))

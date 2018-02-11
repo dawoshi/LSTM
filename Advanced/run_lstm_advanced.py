@@ -23,7 +23,6 @@ def run():
     ]
 
 
-
     model = Model()
 
     iterations = 500
