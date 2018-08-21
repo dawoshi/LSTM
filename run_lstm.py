@@ -1,12 +1,8 @@
 import random
 import numpy as np
 from model import Model
-import tensorflow as tf
 import rnn
-
 import argparse
-
-
 
 def run_lstm(implementation):
     random.seed(0)
