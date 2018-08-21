@@ -7,34 +7,39 @@ This project shows how the BasicLSTMCell is implemented internally in Tensorflow
 The implementation of Tensorflow's BasicLSTMCell is based on:
 http://arxiv.org/abs/1409.2329
 
-The forget gate 
-```Python
-forget_gate = tf.sigmoid(tf.matmul(input, w_f) + tf.matmul(u_f, hidden_state) + b_f)
-```
-outputs a number between 0 and 1. It decides how much of the old state we forget.
+The LSTM architecture is defined by the following equations:
 
-The input gate
 ```Python
-input_gate = tf.sigmoid(tf.matmul(input, w_i) + tf.matmul(u_i, hidden_state) + b_i)
-```
-decides how much new input is part of the new state.
+forget_gate =   sigmoid(matmul(input, w_f) + matmul(u_f, hidden_state) + b_f)
+input_gate =    sigmoid(matmul(input, w_i) + matmul(u_i, hidden_state) + b_i)
+new_input =     tanh(matmul(input, w_j)    + matmul(u_j, hidden_state) + b_j)
+output_gate =   sigmoid(matmul(input, w_o) + matmul(u_o, hidden_state) + b_o)
 
-Then we create the information that could be added to the state:
-```Python
-new_input = tf.tanh(tf.matmul(input, w_j) + tf.matmul(u_j, hidden_state) + b_j)
+new_cell_state = cell_state * forget_gate + input_gate * new_input
+new_hidden_state = tanh(new_cell_state) * output_gate
 ```
 
-We update the old cell state into the new cell state by using the gates:
-```Python
-new_state = new_input * input_gate + forget_gate * state
+* The forget gate outputs a number between 0 and 1. It decides how much of the old cell state we forget.
+* The input gate decides how much new input is part of the new state.
+* The output gate decides which parts we output.
+
+## Example
+In this project the BasicLSTMCell is used to predict the next symbol of the sequence
+```
+[0, 0, 0, 1, 1, 1, 0]. 
 ```
 
-The output gate 
-```Python
-output_gate = tf.sigmoid(tf.matmul(input, w_o) + tf.matmul(u_o, hidden_state) + b_o)
+The sequence is divided into inputs of 3 time steps:
+
+| Input | Label |
+| --- | ---
+| [0, 0, 0] | 1 |
+| [0, 0, 1] | 1 |
+| [0, 1, 1] | 1 |
+| [1, 1, 1] | 0 |
+
+## Run LSTM
+```shell
+$ python -m run_lstm
 ```
 
-decides which parts we output:
-```Python
-new_hidden_state = tf.tanh(new_state) * output_gate
-```
