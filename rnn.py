@@ -44,4 +44,4 @@ class BasicLSTMCell():
       new_cell_state = cell_state * forget_gate + input_gate * new_input
       new_hidden_state = tanh(new_cell_state) * output_gate
 
-      return LSTMStateTuple(new_cell_state, new_hidden_state)
+      return new_hidden_state, LSTMStateTuple(new_cell_state, new_hidden_state)
